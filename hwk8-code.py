@@ -108,58 +108,55 @@ def run_dijkstra(
 
 # Main:
 graph: dict[str | None, dict[str, int] | None] = {
-    "king": {"scales": 0},
-    "scales": {"king": 0, "ziskind": 0, "campus center": 0, "tyler": 0},
-    "ziskind": {"scales": 0, "cutter": 0},
-    "cutter": {"ziskind": 0, "capen": 0, "lamont": 0, "northrop": 0},
-    "capen": {"cutter": 0, "talbot": 0},
-    "talbot": {"capen": 0, "dunkin donuts": 0, "lamont": 0},
-    "lamont": {"cutter": 0, "talbot": 0, "gillett": 0, "chase": 0},
-    "northrop": {"cutter": 0, "gillett": 0, "jmg": 0},
-    "gillett": {"lamont": 0, "northrop": 0, "chase": 0},
-    "chase": {"lamont": 0, "gillett": 0, "duckett": 0},
-    "duckett": {"chase": 0, "dunkin donuts": 0, "neilson": 0, "ford": 0},
-    "dunkin donuts": {"talbot": 0, "duckett": 0},
-    "campus center": {"scales": 0, "jmg": 0, "chapin": 0},
-    "jmg": {"northrop": 0, "campus center": 0, "hatfield": 0},
-    "chapin": {"campus center": 0, "wright hall": 0},
-    "hatfield": {"jmg": 0, "neilson": 0},
-    "wright hall": {"chapin": 0, "neilson": 0},
-    "neilson": {"duckett": 0, "hatfield": 0, "wright hall": 0, "tyler": 0, "ford": 0},
-    "tyler": {"scales": 0, "neilson": 0, "sage hall": 0, "rugby pitch": 0},
-    "ford": {"duckett": 0, "neilson": 0, "sage hall": 0},
-    "sage hall": {"tyler": 0, "ford": 0},
-    "rugby pitch": {"tyler": 0},
+    "king": {"scales": 1 * 60 + 7},
+    "scales": {
+        "king": 1 * 60 + 7,
+        "ziskind": 4 * 60 + 5,
+        "campus center": 3 * 60 + 52,
+        "tyler": 6 * 60 + 54,
+    },
+    "ziskind": {"scales": 4 * 60 + 5, "cutter": 0},
+    "cutter": {
+        "ziskind": 0,
+        "capen": 2 * 60 + 27,
+        "lamont": 0,
+        "northrop": 1 * 60 + 45,
+    },
+    "capen": {"cutter": 2 * 60 + 27, "talbot": 50},
+    "talbot": {"capen": 50, "dunkin donuts": 9 * 60 + 48, "lamont": 53},
+    "lamont": {"cutter": 0, "talbot": 53, "gillett": 1 * 60 + 12, "chase": 2 * 60 + 16},
+    "northrop": {"cutter": 1 * 60 + 45, "gillett": 10, "jmg": 1 * 60 + 4},
+    "gillett": {"lamont": 1 * 60 + 12, "northrop": 10, "chase": 1 * 60 + 19},
+    "chase": {"lamont": 2 * 60 + 16, "gillett": 1 * 60 + 19, "duckett": 37},
+    "duckett": {
+        "chase": 37,
+        "dunkin donuts": 13 * 60 + 7,
+        "neilson": 3 * 60 + 11,
+        "ford": 5 * 60 + 30,
+    },
+    "dunkin donuts": {"talbot": 9 * 60 + 48, "duckett": 13 * 60 + 7},
+    "campus center": {"scales": 3 * 60 + 52, "jmg": 53, "chapin": 47},
+    "jmg": {"northrop": 1 * 60 + 4, "campus center": 53, "hatfield": 43},
+    "chapin": {"campus center": 47, "wright hall": 47},
+    "hatfield": {"jmg": 43, "neilson": 1 * 60 + 10, "wright hall": 1 * 60 + 16},
+    "wright hall": {"chapin": 47, "neilson": 42, "hatfield": 1 * 60 + 16},
+    "neilson": {
+        "duckett": 3 * 60 + 11,
+        "hatfield": 1 * 60 + 10,
+        "wright hall": 42,
+        "tyler": 0,
+        "ford": 0,
+    },
+    "tyler": {
+        "scales": 6 * 60 + 54,
+        "neilson": 0,
+        "sage hall": 1 * 60 + 25,
+        "rugby pitch": 4 * 60 + 11,
+    },
+    "ford": {"duckett": 5 * 60 + 30, "neilson": 0, "sage hall": 2 * 60 + 19},
+    "sage hall": {"tyler": 1 * 60 + 25, "ford": 2 * 60 + 1},
+    "rugby pitch": {"tyler": 4 * 60 + 11},
 }
 
 path = run_dijkstra(graph, "king", "neilson")
 print("The shortest path is", path)
-
-
-# the graph
-# graph = {}
-# graph["start"] = {}
-# graph["start"]["a"] = 6
-# graph["start"]["b"] = 2
-
-# graph["a"] = {}
-# graph["a"]["fin"] = 1
-
-# graph["b"] = {}
-# graph["b"]["a"] = 3
-# graph["b"]["fin"] = 5
-
-# graph["fin"] = {}
-
-# the costs table
-# infinity = float("inf")
-# costs = {}
-# costs["a"] = 6
-# costs["b"] = 2
-# costs["fin"] = infinity
-
-# the parents table
-# parents = {}
-# parents["a"] = "start"
-# parents["b"] = "start"
-# parents["fin"] = None
