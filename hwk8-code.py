@@ -85,15 +85,15 @@ def find_lowest_cost_node(
 
 def run_dijkstra(
     graph: dict[str | None, dict[str, int] | None], start: str, finish: str
-) -> list[str] | list[str | None]:
+) -> list[str] | list[str | None] | None, int | None:
     processed: list[str] = new_array(len(graph.keys()))
     i = 0
     parents = get_initial_parents(graph, start)
     if parents is None:
-        return processed
+        return processed, None
     costs = get_initial_costs(graph, start)
     if costs is None:
-        return processed
+        return processed, None
     node = find_lowest_cost_node(costs, processed)
 
     while node is not None and node not in processed:
@@ -113,11 +113,15 @@ def run_dijkstra(
 
     path = [finish]
     node = finish
+    time = 0
     while node and node != start:
         if parents.get(node) != None:
+            time += graph[parents[node]][node]
             node = parents[node]
             path = combineArrays([node], path)
-    return path
+        else: # there is no path from start to finish
+          return None, None
+    return path, time
 
 
 # Main:
