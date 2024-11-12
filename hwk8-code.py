@@ -2,7 +2,9 @@
 # Peers:      - names of CSC252 students who you consulted or "N/A"
 # References: - URL of resources used or "N/A"
 
-from typing import Tuple # to get type checking to work correctly
+# ASSUMPTIONS: graph's will fully define each node
+#              if a graph has a node d that has no outgoing edges it will still define it is "d": {}
+
 
 #### HELPER FUNCTIONS - START ####
 def new_array(length: int) -> list[str]:
@@ -15,33 +17,46 @@ def new_array(length: int) -> list[str]:
         list[int]: new array of desired length
 
     >>> new_array(2)
-    ["", ""]
+    ['', '']
     """
     L = [""] * length
     return L
 
 
-def combineArrays(a1:list, a2:list) -> list:
-    """ Combine two given arrays into one large array, equivalent to a1.append(a2)
+def combineArrays(a1: list[str], a2: list[str]) -> list[str]:
+    """Combine two given arrays into one large array, equivalent to a1.append(a2)
     :param a1: (list) the first array
     :param a2: (list) the second array
     :return : (list) the two arrays combined into one larger array
-    >>> combineArrays([1,2,3], [4,5])
-    [1,2,3,4,5]
+    >>> combineArrays(["1","2","3"], ["4","5"])
+    ['1', '2', '3', '4', '5']
     """
     arr = new_array(len(a1) + len(a2))
-    for i in range(0, len(a1)): # add the values of a1
+    for i in range(0, len(a1)):  # add the values of a1
         arr[i] = a1[i]
-    for j in range(0, len(a2)): # add the values of a2
-        arr[len(a1)+j] = a2[j]
+    for j in range(0, len(a2)):  # add the values of a2
+        arr[len(a1) + j] = a2[j]
     return arr
-    
+
+
 #### HELPER FUNCTIONS - END ####
 
 
 def get_initial_parents(
     graph: dict[str | None, dict[str, int] | None], initial: str
 ) -> dict[str, str | None] | None:
+    """Gets the initial parent dictionary
+
+    Args:
+        graph (dict[str  |  None, dict[str, int]  |  None]): dictionary description of graph
+        initial (str): node to start at
+
+    Returns:
+        dict[str, str | None] | None: parent dictionary based on start node
+
+    >>> get_initial_parents({"a":{"b": 1}}, "a")
+    {'b': 'a'}
+    """
     parents: dict[str, str | None] = {}
     for node in graph.keys():
         if node != None and node != initial:
@@ -57,6 +72,18 @@ def get_initial_parents(
 def get_initial_costs(
     graph: dict[str | None, dict[str, int] | None], initial: str
 ) -> dict[str, int | float] | None:
+    """Gets the initial cost dictionary based on start node
+
+    Args:
+        graph (dict[str  |  None, dict[str, int]  |  None]): dictionary description of graph
+        initial (str): start node
+
+    Returns:
+        dict[str, int | float] | None: initial cost dictionary
+
+    >>> get_initial_costs({"a":{"b": 1}},  "a")
+    {'a': inf, 'b': 1}
+    """
     costs: dict[str, int | float] = {}
     for node in graph.keys():
         if node != None:
@@ -72,6 +99,18 @@ def get_initial_costs(
 def find_lowest_cost_node(
     costs: dict[str, int | float], processed: list[str]
 ) -> str | None:
+    """Finds the next node to go to based on which unvisited node has the lowest cost
+
+    Args:
+        costs (dict[str, int  |  float]): all the costs to get to nodes
+        processed (list[str]): all the nodes that have been processed
+
+    Returns:
+        str | None: next node to visit
+
+    >>> find_lowest_cost_node({"a": 1, "b": 2, "c": 10},  ["a"])
+    'b'
+    """
     lowest_cost: float = float("inf")
     lowest_cost_node: str | None = None
     # Go through each node.
@@ -87,15 +126,28 @@ def find_lowest_cost_node(
 
 def run_dijkstra(
     graph: dict[str | None, dict[str, int] | None], start: str, finish: str
-) -> Tuple[list[str] | list[str | None] | None, int | None]:
+) -> tuple[list[str] | None, int | None]:
+    """Runs Dijkstra's algorithm
+
+    Args:
+        graph (dict[str  |  None, dict[str, int]  |  None]): dictionary description of graph
+        start (str): start node
+        finish (str): end node
+
+    Returns:
+        Tuple[list[str] | None, int | None]: path and fastest time to get from start to end if it exists
+
+    >>> run_dijkstra({"a": {"b": 1, "c": 2}, "b": {"d": 1}, "c": {"d": 1}, "d": {}}, "a", "d")
+    (['a', 'b', 'd'], 2)
+    """
     processed: list[str] = new_array(len(graph.keys()))
     i = 0
     parents = get_initial_parents(graph, start)
     if parents is None:
-        return processed, None
+        return None, None
     costs = get_initial_costs(graph, start)
     if costs is None:
-        return processed, None
+        return None, None
     node = find_lowest_cost_node(costs, processed)
 
     while node is not None and node not in processed:
@@ -115,18 +167,21 @@ def run_dijkstra(
 
     path = [finish]
     node = finish
-    time = 0
+    time: int | None = 0
     while node and node != start:
-        if parents.get(node) != None:
-            time += graph[parents[node]][node]
-            node = parents[node]
+        parent = parents[node]
+        from_parent = graph.get(parent)
+        if parent and from_parent:
+            time += int(from_parent[node])
+            node = parent
             path = combineArrays([node], path)
-        else: # there is no path from start to finish
-          return None, None
+        else:  # there is no path from start to finish
+            return None, None
     return path, time
 
 
 def main():
+    """Gathers input and output data to run Dijkstra's"""
 
     # Define the graph
     graph: dict[str | None, dict[str, int] | None] = {
@@ -146,7 +201,12 @@ def main():
         },
         "capen": {"cutter": 2 * 60 + 27, "talbot": 50},
         "talbot": {"capen": 50, "dunkin donuts": 9 * 60 + 48, "lamont": 53},
-        "lamont": {"cutter": 0, "talbot": 53, "gillett": 1 * 60 + 12, "chase": 2 * 60 + 16},
+        "lamont": {
+            "cutter": 0,
+            "talbot": 53,
+            "gillett": 1 * 60 + 12,
+            "chase": 2 * 60 + 16,
+        },
         "northrop": {"cutter": 1 * 60 + 45, "gillett": 10, "jmg": 1 * 60 + 4},
         "gillett": {"lamont": 1 * 60 + 12, "northrop": 10, "chase": 1 * 60 + 19},
         "chase": {"lamont": 2 * 60 + 16, "gillett": 1 * 60 + 19, "duckett": 37},
@@ -182,28 +242,32 @@ def main():
 
     # Ask the user for a start node
     valid_start = False
+    start = ""
     while not valid_start:
-        start = input("Start location (type 'help' to see all locations): ").strip().lower()
+        start = (
+            input("Start location (type 'help' to see all locations): ").strip().lower()
+        )
         if start == "help":
             print(graph.keys())
         else:
             if graph.get(start) == None:
-                print("Sorry, '" + start +"' is not a valid location")
+                print("Sorry, '" + start + "' is not a valid location")
             else:
                 valid_start = True
-    
+
     # Ask the user for an end node
     valid_end = False
+    end = ""
     while not valid_end:
         end = input("End location (type 'help' to see all locations): ").strip().lower()
         if end == "help":
             print(graph.keys())
         else:
             if graph.get(end) == None:
-                print("Sorry, '" + end +"' is not a valid location")
+                print("Sorry, '" + end + "' is not a valid location")
             else:
                 valid_end = True
-    
+
     # Run Dijkstra's algorithm
     path, time = run_dijkstra(graph, start, end)
 
@@ -213,10 +277,10 @@ def main():
     else:
         print("The shortest path is", path)
         if time != None:
-            print("which takes", time//60, "minutes and", time%60, "seconds")
-        else: 
+            print("This takes", time // 60, "minutes and", time % 60, "seconds")
+        else:
             print("Time cannot be determined")
 
 
-if __name__ == "__main__":   
+if __name__ == "__main__":
     main()
