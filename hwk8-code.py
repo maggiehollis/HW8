@@ -20,6 +20,7 @@ def new_array(length: int) -> list[str]:
     L = [""] * length
     return L
 
+
 def combineArrays(a1:list, a2:list) -> list:
     """ Combine two given arrays into one large array, equivalent to a1.append(a2)
     :param a1: (list) the first array
@@ -125,57 +126,97 @@ def run_dijkstra(
     return path, time
 
 
-# Main:
-graph: dict[str | None, dict[str, int] | None] = {
-    "king": {"scales": 1 * 60 + 7},
-    "scales": {
-        "king": 1 * 60 + 7,
-        "ziskind": 4 * 60 + 5,
-        "campus center": 3 * 60 + 52,
-        "tyler": 6 * 60 + 54,
-    },
-    "ziskind": {"scales": 4 * 60 + 5, "cutter": 0},
-    "cutter": {
-        "ziskind": 0,
-        "capen": 2 * 60 + 27,
-        "lamont": 0,
-        "northrop": 1 * 60 + 45,
-    },
-    "capen": {"cutter": 2 * 60 + 27, "talbot": 50},
-    "talbot": {"capen": 50, "dunkin donuts": 9 * 60 + 48, "lamont": 53},
-    "lamont": {"cutter": 0, "talbot": 53, "gillett": 1 * 60 + 12, "chase": 2 * 60 + 16},
-    "northrop": {"cutter": 1 * 60 + 45, "gillett": 10, "jmg": 1 * 60 + 4},
-    "gillett": {"lamont": 1 * 60 + 12, "northrop": 10, "chase": 1 * 60 + 19},
-    "chase": {"lamont": 2 * 60 + 16, "gillett": 1 * 60 + 19, "duckett": 37},
-    "duckett": {
-        "chase": 37,
-        "dunkin donuts": 13 * 60 + 7,
-        "neilson": 3 * 60 + 11,
-        "ford": 5 * 60 + 30,
-    },
-    "dunkin donuts": {"talbot": 9 * 60 + 48, "duckett": 13 * 60 + 7},
-    "campus center": {"scales": 3 * 60 + 52, "jmg": 53, "chapin": 47},
-    "jmg": {"northrop": 1 * 60 + 4, "campus center": 53, "hatfield": 43},
-    "chapin": {"campus center": 47, "wright hall": 47},
-    "hatfield": {"jmg": 43, "neilson": 1 * 60 + 10, "wright hall": 1 * 60 + 16},
-    "wright hall": {"chapin": 47, "neilson": 42, "hatfield": 1 * 60 + 16},
-    "neilson": {
-        "duckett": 3 * 60 + 11,
-        "hatfield": 1 * 60 + 10,
-        "wright hall": 42,
-        "tyler": 0,
-        "ford": 0,
-    },
-    "tyler": {
-        "scales": 6 * 60 + 54,
-        "neilson": 0,
-        "sage hall": 1 * 60 + 25,
-        "rugby pitch": 4 * 60 + 11,
-    },
-    "ford": {"duckett": 5 * 60 + 30, "neilson": 0, "sage hall": 2 * 60 + 19},
-    "sage hall": {"tyler": 1 * 60 + 25, "ford": 2 * 60 + 1},
-    "rugby pitch": {"tyler": 4 * 60 + 11},
-}
+def main():
 
-path = run_dijkstra(graph, "king", "neilson")
-print("The shortest path is", path)
+    # Define the graph
+    graph: dict[str | None, dict[str, int] | None] = {
+        "king": {"scales": 1 * 60 + 7},
+        "scales": {
+            "king": 1 * 60 + 7,
+            "ziskind": 4 * 60 + 5,
+            "campus center": 3 * 60 + 52,
+            "tyler": 6 * 60 + 54,
+        },
+        "ziskind": {"scales": 4 * 60 + 5, "cutter": 0},
+        "cutter": {
+            "ziskind": 0,
+            "capen": 2 * 60 + 27,
+            "lamont": 0,
+            "northrop": 1 * 60 + 45,
+        },
+        "capen": {"cutter": 2 * 60 + 27, "talbot": 50},
+        "talbot": {"capen": 50, "dunkin donuts": 9 * 60 + 48, "lamont": 53},
+        "lamont": {"cutter": 0, "talbot": 53, "gillett": 1 * 60 + 12, "chase": 2 * 60 + 16},
+        "northrop": {"cutter": 1 * 60 + 45, "gillett": 10, "jmg": 1 * 60 + 4},
+        "gillett": {"lamont": 1 * 60 + 12, "northrop": 10, "chase": 1 * 60 + 19},
+        "chase": {"lamont": 2 * 60 + 16, "gillett": 1 * 60 + 19, "duckett": 37},
+        "duckett": {
+            "chase": 37,
+            "dunkin donuts": 13 * 60 + 7,
+            "neilson": 3 * 60 + 11,
+            "ford": 5 * 60 + 30,
+        },
+        "dunkin donuts": {"talbot": 9 * 60 + 48, "duckett": 13 * 60 + 7},
+        "campus center": {"scales": 3 * 60 + 52, "jmg": 53, "chapin": 47},
+        "jmg": {"northrop": 1 * 60 + 4, "campus center": 53, "hatfield": 43},
+        "chapin": {"campus center": 47, "wright hall": 47},
+        "hatfield": {"jmg": 43, "neilson": 1 * 60 + 10, "wright hall": 1 * 60 + 16},
+        "wright hall": {"chapin": 47, "neilson": 42, "hatfield": 1 * 60 + 16},
+        "neilson": {
+            "duckett": 3 * 60 + 11,
+            "hatfield": 1 * 60 + 10,
+            "wright hall": 42,
+            "tyler": 0,
+            "ford": 0,
+        },
+        "tyler": {
+            "scales": 6 * 60 + 54,
+            "neilson": 0,
+            "sage hall": 1 * 60 + 25,
+            "rugby pitch": 4 * 60 + 11,
+        },
+        "ford": {"duckett": 5 * 60 + 30, "neilson": 0, "sage hall": 2 * 60 + 19},
+        "sage hall": {"tyler": 1 * 60 + 25, "ford": 2 * 60 + 1},
+        "rugby pitch": {"tyler": 4 * 60 + 11},
+    }
+
+    # Ask the user for a start node
+    valid_start = False
+    while not valid_start:
+        start = input("Start location (type 'help' to see all locations): ").strip().lower()
+        if start == "help":
+            print(graph.keys())
+        else:
+            if graph.get(start) == None:
+                print("Sorry, '" + start +"' is not a valid location")
+            else:
+                valid_start = True
+    
+    # Ask the user for an end node
+    valid_end = False
+    while not valid_end:
+        end = input("End location (type 'help' to see all locations): ").strip().lower()
+        if end == "help":
+            print(graph.keys())
+        else:
+            if graph.get(end) == None:
+                print("Sorry, '" + end +"' is not a valid location")
+            else:
+                valid_end = True
+    
+    # Run Dijkstra's algorithm
+    path, time = run_dijkstra(graph, start, end)
+
+    # Print the results
+    if path == None:
+        print("There is no path from '" + start + "' to '" + end + "'")
+    else:
+        print("The shortest path is", path)
+        if time != None:
+            print("which takes", time//60, "minutes and", time%60, "seconds")
+        else: 
+            print("Time cannot be determined")
+
+
+if __name__ == "__main__":   
+    main()
