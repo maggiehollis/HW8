@@ -2,6 +2,7 @@
 # Peers:      - names of CSC252 students who you consulted or "N/A"
 # References: - URL of resources used or "N/A"
 
+from typing import Tuple # to get type checking to work correctly
 
 #### HELPER FUNCTIONS - START ####
 def new_array(length: int) -> list[str]:
@@ -85,7 +86,7 @@ def find_lowest_cost_node(
 
 def run_dijkstra(
     graph: dict[str | None, dict[str, int] | None], start: str, finish: str
-) -> list[str] | list[str | None] | None, int | None:
+) -> Tuple[list[str] | list[str | None] | None, int | None]:
     processed: list[str] = new_array(len(graph.keys()))
     i = 0
     parents = get_initial_parents(graph, start)
