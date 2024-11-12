@@ -19,7 +19,21 @@ def new_array(length: int) -> list[str]:
     L = [""] * length
     return L
 
-
+def combineArrays(a1:list, a2:list) -> list:
+    """ Combine two given arrays into one large array, equivalent to a1.append(a2)
+    :param a1: (list) the first array
+    :param a2: (list) the second array
+    :return : (list) the two arrays combined into one larger array
+    >>> combineArrays([1,2,3], [4,5])
+    [1,2,3,4,5]
+    """
+    arr = new_array(len(a1) + len(a2))
+    for i in range(0, len(a1)): # add the values of a1
+        arr[i] = a1[i]
+    for j in range(0, len(a2)): # add the values of a2
+        arr[len(a1)+j] = a2[j]
+    return arr
+    
 #### HELPER FUNCTIONS - END ####
 
 
@@ -102,7 +116,7 @@ def run_dijkstra(
     while node and node != start:
         if parents.get(node) != None:
             node = parents[node]
-            path = [node] + path
+            path = combineArrays([node], path)
     return path
 
 
