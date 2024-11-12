@@ -140,6 +140,8 @@ def run_dijkstra(
     >>> run_dijkstra({"a": {"b": 1, "c": 2}, "b": {"d": 1}, "c": {"d": 1}, "d": {}}, "a", "d")
     (['a', 'b', 'd'], 2)
     """
+    if start not in graph or finish not in graph:
+        return None, None
     processed: list[str] = new_array(len(graph.keys()))
     i = 0
     parents = get_initial_parents(graph, start)
@@ -183,6 +185,7 @@ def run_dijkstra(
 def main():
     """Gathers input and output data to run Dijkstra's"""
 
+    return
     # Define the graph
     graph: dict[str | None, dict[str, int] | None] = {
         "king": {"scales": 1 * 60 + 7},
