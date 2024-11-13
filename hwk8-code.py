@@ -2,7 +2,7 @@
 # Peers:      - N/A
 # References: - N/A
 
-# ASSUMPTIONS: graph's will fully define each node
+# ASSUMPTIONS: graphs will fully define each node
 #              if a graph has a node d that has no outgoing edges it will still define it is "d": {}
 
 
