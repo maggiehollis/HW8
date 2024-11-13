@@ -1,6 +1,6 @@
 # Name:       - Maggie, Kiera, Ashby, Ashley
-# Peers:      - names of CSC252 students who you consulted or "N/A"
-# References: - URL of resources used or "N/A"
+# Peers:      - N/A
+# References: - N/A
 
 # ASSUMPTIONS: graph's will fully define each node
 #              if a graph has a node d that has no outgoing edges it will still define it is "d": {}
