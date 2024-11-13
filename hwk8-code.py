@@ -185,7 +185,6 @@ def run_dijkstra(
 def main():
     """Gathers input and output data to run Dijkstra's"""
 
-    return
     # Define the graph
     graph: dict[str | None, dict[str, int] | None] = {
         "king": {"scales": 1 * 60 + 7},
@@ -195,7 +194,7 @@ def main():
             "campus center": 3 * 60 + 52,
             "tyler": 6 * 60 + 54,
         },
-        "ziskind": {"scales": 4 * 60 + 5, "cutter": 1 * 60 +12},
+        "ziskind": {"scales": 4 * 60 + 5, "cutter": 1 * 60 + 12},
         "cutter": {
             "ziskind": 1 * 60 + 12,
             "capen": 2 * 60 + 27,
@@ -229,7 +228,7 @@ def main():
             "duckett": 3 * 60 + 11,
             "hatfield": 1 * 60 + 10,
             "wright hall": 42,
-            "tyler":  60 * 3 + 9,
+            "tyler": 60 * 3 + 9,
             "ford": 2 * 60 + 15,
         },
         "tyler": {
@@ -238,7 +237,11 @@ def main():
             "sage hall": 1 * 60 + 25,
             "rugby pitch": 4 * 60 + 11,
         },
-        "ford": {"duckett": 5 * 60 + 30, "neilson": 2 * 60 + 15, "sage hall": 2 * 60 + 19},
+        "ford": {
+            "duckett": 5 * 60 + 30,
+            "neilson": 2 * 60 + 15,
+            "sage hall": 2 * 60 + 19,
+        },
         "sage hall": {"tyler": 1 * 60 + 25, "ford": 2 * 60 + 1},
         "rugby pitch": {"tyler": 4 * 60 + 11},
     }
